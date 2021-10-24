@@ -6,6 +6,9 @@ A simple to-do list flask appliaction,一个基于Flask的简洁的待办事项�
 ![image](https://user-images.githubusercontent.com/75151244/138586205-6015067c-19dc-4010-bcec-f5e6e73510e4.png)
 
 
+**注意**
+
+app.py中的json_path在windows下是'\data.json'，linux下是'/data.json'，需要改一下。
 
 # 快速使用
 
