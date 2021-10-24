@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8">
+<title>待办事项清单</title>
+<link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+
+<body>
+<div class="app-container" id="taskList">
+  <h1 class="app-header">待办事项清单</h1>
+    <form method="post" action="/add">
+        <div class="add-task">
+            <input type="text" name="content" autocomplete="off" placeholder="添加新事项" class="task-input">
+		    <input type="submit" value="" class="submit-task" title="Add Task">
+        </div>
+    </form>
+  <ul class="task-list">
+      {% for task,i in zip(tasks, range(total)) %}
+          <li class="task-list-item">
+              <label class="task-list-item-label">
+                  {% if task.status == 'done' %}
+                      <form id="change{{ i }}" method="post" action="/change_status">
+                          <input type="hidden" name="change_status" value="change{{ i }}">
+                          <input type="checkbox" checked="checked"  onclick="document.getElementById('change{{ i }}').submit()">
+                          <span onclick="document.getElementById('change{{ i }}').submit()">{{task.name}}</span>
+                      </form>
+                      </label>
+                      <div class="delete-btn">
+                          <form id="delete{{ i }}" action="/delete" method="post">
+                              <input type="hidden" name="delete_task" value="delete{{ i }}">
+                              <span class="delete-btn" onclick="delete_task({{ i }})" title="Delete Task"></span>
+                          </form>
+                      </div>
+                  {% else %}
+                      <form id="change{{ i }}" method="post" action="/change_status">
+                          <input type="hidden" name="change_status" value="change{{ i }}">
+                          <input type="checkbox" name="change_status" value="change{{ i }}" onclick="document.getElementById('change{{ i }}').submit()">
+                          <span onclick="document.getElementById('change{{ i }}').submit()">{{task.name}}</span>
+                      </form>
+                      </label>
+                      <div class="delete-btn">
+                          <form id="delete{{ i }}" action="/delete" method="post">
+                              <input type="hidden" name="delete_task" value="delete{{ i }}">
+                              <span class="delete-btn" onclick="delete_task({{ i }})" title="Delete Task"></span>
+                          </form>
+                      </div>
+                  {% endif %}
+          </li>
+      {% endfor %}
+  </ul>
+</div>
+
+<script>
+function delete_task(index) {
+    var txt;
+    if (confirm("您确定要删除掉这条吗？！！")) {
+        document.getElementById('delete'+index).submit();
+      }
+    else {
+        txt = "取消了0.0";
+      }
+}
+</script>
+
+</body>
+</html>
